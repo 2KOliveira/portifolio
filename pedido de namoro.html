@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Namoro com Resposta Impossível</title>
+</head>
+<body style="text-align: center; font-family: Arial, sans-serif; background-color: #f0f0f0;">
+
+    <h1>Pedido de Namoro</h1>
+    
+    <p>Quer namorar comigo?</p>
+
+    <button onclick="respostaImpossivel()">Sim</button>
+    <button onclick="respostaImpossivel()">Talvez</button>
+    <button onmouseover="moverBotao()">Claro</button>
+
+    <script>
+        function moverBotao() {
+            const button = document.getElementById("movableButton");
+            
+            // Obtenha as dimensões da janela do navegador
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // Gere coordenadas x e y aleatórias dentro da janela
+            const randomX = Math.floor(Math.random() * (windowWidth - 100)); // 100 é a largura do botão
+            const randomY = Math.floor(Math.random() * (windowHeight - 50)); // 50 é a altura do botão
+            
+            // Aplique as coordenadas ao botão
+            button.style.left = randomX + "px";
+            button.style.top = randomY + "px";
+        }
+    </script>
+    <p id="resposta" style="font-weight: bold; color: red;"></p>
+
+    <script>
+        function moverBotao() {
+            const button = document.getElementById("movableButton");
+            
+            // Obtenha as dimensões da janela do navegador
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // Gere coordenadas x e y aleatórias dentro da janela
+            const randomX = Math.floor(Math.random() * (windowWidth - 100)); // 100 é a largura do botão
+            const randomY = Math.floor(Math.random() * (windowHeight - 50)); // 50 é a altura do botão
+            
+            // Aplique as coordenadas ao botão
+            button.style.left = randomX + "px";
+            button.style.top = randomY + "px";
+        }
+
+        function respostaImpossivel() {
+            const respostasImpossiveis = [
+                "Desculpe, estou ocupado(a) explorando o mundo!",
+                "Vou ter que recusar, tenho planos para colonizar Marte.",
+                "Adoraria, mas estou ocupado(a) salvando o planeta.",
+                "Estou comprometido(a) construindo minha própria estrela da morte!",
+                "Parece tentador, mas estou ocupado(a) viajando no tempo."
+            ];
+
+            const resposta = respostasImpossiveis[Math.floor(Math.random() * respostasImpossiveis.length)];
+
+            document.getElementById("resposta").innerText = resposta;
+        }
+    </script>
+</body>
+</html>

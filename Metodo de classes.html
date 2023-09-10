@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Funcionários</title>
+</head>
+<body>
+    <h1>Cadastro de Funcionário</h1>
+    <form id="funcionario-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required><br><br>
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" required><br><br>
+
+        <label for="cargo">Cargo:</label>
+        <select id="cargo" required>
+            <option value="gerente">Gerente</option>
+            <option value="desenvolvedor">Desenvolvedor</option>
+        </select><br><br>
+
+        <div id="gerente-fields" style="display: none;">
+            <label for="departamento">Departamento:</label>
+            <input type="text" id="departamento"><br><br>
+        </div>
+
+        <div id="desenvolvedor-fields" style="display: none;">
+            <label for="linguagem">Linguagem:</label>
+            <input type="text" id="linguagem"><br><br>
+        </div>
+
+        <input type="submit" value="Cadastrar">
+    </form>
+
+    <h2>Informações do Funcionário</h2>
+    <div id="info"></div>
+
+    <script>
+        document.getElementById("funcionario-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById("nome").value;
+            const idade = document.getElementById("idade").value;
+            const cargo = document.getElementById("cargo").value;
+
+            try {
+                let funcionario;
+                if (cargo === "gerente") {
+                    const departamento = document.getElementById("departamento").value;
+                    funcionario = new Gerente(nome, idade, departamento);
+                } else if (cargo === "desenvolvedor") {
+                    const linguagem = document.getElementById("linguagem").value;
+                    funcionario = new Desenvolvedor(nome, idade, linguagem);
+                }
+
+                if (cargo === "gerente") {
+                document.getElementById("info").innerHTML = funcionario.seApresentar() + "<br>";
+                document.getElementById("info").innerHTML += funcionario.trabalhar() + "<br>";
+                document.getElementById("info").innerHTML += funcionario.gerenciar();
+                } else if (cargo === "desenvolvedor") {
+                    document.getElementById("info").innerHTML = funcionario.seApresentar() + "<br>";
+                    document.getElementById("info").innerHTML += funcionario.trabalhar() + "<br>";
+                    document.getElementById("info").innerHTML += funcionario.programar();
+                }
+                
+            } catch (error) {
+                exibirErro(error.message);
+            }
+        });
+
+        document.getElementById("cargo").addEventListener("change", function () {
+            const cargo = document.getElementById("cargo").value;
+            const gerenteFields = document.getElementById("gerente-fields");
+            const desenvolvedorFields = document.getElementById("desenvolvedor-fields");
+
+            if (cargo === "gerente") {
+                gerenteFields.style.display = "block";
+                desenvolvedorFields.style.display = "none";
+            } else if (cargo === "desenvolvedor") {
+                gerenteFields.style.display = "none";
+                desenvolvedorFields.style.display = "block";
+            } else {
+                gerenteFields.style.display = "none";
+                desenvolvedorFields.style.display = "none";
+            }
+        });
+
+        class Funcionario {
+            constructor(nome, idade) {
+                this.nome = nome;
+                this.idade = idade;
+            }
+
+            seApresentar() {
+                return `Olá, meu nome é ${this.nome} e tenho ${this.idade} anos.`;
+            }
+
+            trabalhar() {
+                return "Iresi realizar minhas tarefas de rotina Como:";
+            }
+        }
+
+        class Gerente extends Funcionario {
+            constructor(nome, idade, departamento) {
+                super(nome, idade);
+                this.departamento = departamento;
+            }
+
+            gerenciar() {
+                return `Gerenciar o departamento de ${this.departamento}.`;
+            }
+        }
+
+        class Desenvolvedor extends Funcionario {
+            constructor(nome, idade, linguagem) {
+                super(nome, idade);
+                this.linguagem = linguagem;
+            }
+
+            programar() {
+                return `Programar em ${this.linguagem}.`;
+            }
+        }
+
+        function exibirErro(mensagem) {
+            document.getElementById("info").innerHTML = `<p style="color: red;">Erro: ${mensagem}</p>`;
+        }
+    </script>
+</body>
+</html>
